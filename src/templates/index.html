@@ -1,0 +1,127 @@
+<html>
+
+<head>
+    <title>TFL line status</title>
+    <script>
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('clock').innerHTML =
+                "Now: " + h + ":" + m + ":" + s;
+            var t = setTimeout(startTime, 500);
+        }
+        function startTime_Static() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('clock_static').innerHTML =
+                "Updated: " + h + ":" + m + ":" + s;
+        }
+        function checkTime(i) {
+            if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+            return i;
+        }
+        function start() {
+            startTime();
+            startTime_Static();
+        }
+    </script>
+    <style>
+        @font-face {
+            font-family: led;
+            src: url('static/signus_led-s-webfont.woff');
+        }
+
+        body {
+            background-color: #303036;
+        }
+
+        table {
+            border-spacing: 1px;
+            background-color: #303036;
+            width: 90%;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+
+        tr,
+        td {
+            color: #e6e600;
+            font-family: led;
+            text-align: center;
+            font-size: 40px;
+            line-height: 50px;
+
+        }
+
+        th {
+            text-align: center;
+            color: white;
+            font-family: Sans-serif;
+
+            font-size: 30px;
+        }
+        p1 {
+            color: white;
+            font-family: Sans-serif;
+            font-size: 50px;
+            text-align: left;
+        }
+        p2 {
+            color: #e6e600;
+            font-family: led;
+            font-size: 40px;
+            text-align: right;
+        }
+        .div_center {
+            margin: auto;
+            width: 60%;
+            border: 0px solid white;
+        }
+    </style>
+</head>
+
+<body onload="start()">
+    <div class='div_center'>
+        <br>
+        <table>
+            <tr>
+                <td width=20></td>
+                <td width=200>
+                    <p1>TFL Line Status</p1>
+                </td>
+                <td width=200>
+                    <p2>
+                        <div id="clock"></div><div id="clock_static"></div>
+                    </p2>
+                </td>
+                <td width=20></td>
+            </tr>
+        </table>
+        <table>
+            {% for line in lines %}
+
+            <tr>
+                <td width=20></td>
+                <td width=200 bgcolor={{line[ 'LineColour']}}>
+                    <font color=white>{{line['name']}}</font>
+                </td>
+                <td width=200 bgcolor=#ffffff>
+                    <font color=#303036>{{line['lineStatuses']}}</font>
+                </td>
+                <td width=20></td>
+            </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+</body>
+
+</html>
